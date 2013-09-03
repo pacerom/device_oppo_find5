@@ -43,7 +43,7 @@ BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=find5 lpj
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000
 
 # Kernel
-TARGET_KERNEL_CONFIG := cyanogenmod_find5_defconfig
+TARGET_KERNEL_CONFIG := aokp_find5_defconfig
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -77,8 +77,13 @@ BOARD_EGL_CFG := device/oppo/find5/configs/egl.cfg
 TARGET_QCOM_DISPLAY_VARIANT := caf
 USE_OPENGL_RENDERER := true
 TARGET_USES_ION := true
+# needed for latest CAF kernel
+COMMON_GLOBAL_CFLAGS += -DNEW_ION_API 
 TARGET_USES_C2D_COMPOSITION := true
 
+# Recovery
+TARGET_RECOVERY_FSTAB := device/oppo/find5/configs/fstab.find5
+RECOVERY_FSTAB_VERSION := 2
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/oppo/find5/recovery/recovery_keys.c
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
@@ -106,7 +111,8 @@ BOARD_HAVE_NEW_QC_GPS := true
 #TARGET_NO_RPC := true
 
 # Camera
-COMMON_GLOBAL_CFLAGS += -DDISABLE_HW_ID_MATCH_CHECK -DQCOM_BSP_CAMERA_ABI_HACK -DNEW_ION_API
+COMMON_GLOBAL_CFLAGS += -DDISABLE_HW_ID_MATCH_CHECK -DQCOM_BSP_CAMERA_ABI_HACK
+USE_DEVICE_SPECIFIC_CAMERA := true
 
 TARGET_RELEASETOOLS_EXTENSIONS := device/oppo/find5
 
@@ -124,3 +130,6 @@ BOARD_HAVE_LOW_LATENCY_AUDIO := true
 -include vendor/oppo/find5/BoardConfigVendor.mk
 
 BOARD_HAS_NO_SELECT_BUTTON := true
+
+# dont build docs
+DISABLE_DROIDDOC := true 

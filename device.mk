@@ -28,9 +28,6 @@ DEVICE_PACKAGE_OVERLAYS := device/oppo/find5/overlay
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi xxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 
-PRODUCT_PACKAGES := \
-	lights.msm8960
-
 PRODUCT_PACKAGES += \
     charger_res_images \
     charger
@@ -125,11 +122,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml
 
 # NFCEE access control
-ifeq ($(TARGET_BUILD_VARIANT),user)
-    NFCEE_ACCESS_PATH := device/oppo/find5/configs/nfcee_access.xml
-else
-    NFCEE_ACCESS_PATH := device/oppo/find5/configs/nfcee_access_debug.xml
-endif
+NFCEE_ACCESS_PATH := device/oppo/find5/configs/nfcee_access.xml
 PRODUCT_COPY_FILES += \
     $(NFCEE_ACCESS_PATH):system/etc/nfcee_access.xml
 
@@ -139,12 +132,21 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.sf.lcd_density=480
 
+# qcom
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.qc.sdk.audio.ssr=false \
+	ro.qc.sdk.audio.fluencetype=none \
+	ro.qc.sdk.sensors.gestures=false
+
 # Audio Configuration
 PRODUCT_PROPERTY_OVERRIDES += \
 	persist.audio.handset.mic=dmic \
 	persist.audio.fluence.mode=endfire \
 	persist.audio.lowlatency.rec=false \
-	af.resampler.quality=4
+	af.resampler.quality=4 \
+	lpa.decode=false \
+	tunnel.decode=false \
+	tunnel.audiovideo.decode=true
 
 # Debugging
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -165,6 +167,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 #Upto 3 layers can go through overlays
 PRODUCT_PROPERTY_OVERRIDES += persist.hwc.mdpcomp.enable=true
 
+# Cell Broadcasts
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.cellbroadcast.emergencyids=0-65534 
+        
 PRODUCT_CHARACTERISTICS := nosdcard
 
 PRODUCT_TAGS += dalvik.gc.type-precise
@@ -184,7 +190,8 @@ PRODUCT_PACKAGES += \
 	gralloc.msm8960 \
 	copybit.msm8960 \
 	lights.find5 \
-	camera-wrapper.msm8960
+	camera-wrapper.msm8960 \
+	power.find5
 
 PRODUCT_PACKAGES += \
 	alsa.msm8960 \
@@ -210,8 +217,13 @@ PRODUCT_PACKAGES += \
 	libOmxVdec \
 	libOmxVenc \
 	libOmxCore \
+    	libOmxAacEnc \
+   	libOmxAmrEnc \
+  	libOmxEvrcEnc \
+  	libOmxQcelp13Enc \
 	libstagefrighthw \
-	libc2dcolorconvert
+	libc2dcolorconvert \
+	libdashplayer
 
 PRODUCT_PACKAGES += \
 	bdAddrLoader \
@@ -245,13 +257,19 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 	persist.sys.usb.config=mtp \
 	ro.adb.secure=0
 
-# for bugmailer
-PRODUCT_PACKAGES += send_bug
-PRODUCT_COPY_FILES += \
-	system/extras/bugmailer/bugmailer.sh:system/bin/bugmailer.sh \
-	system/extras/bugmailer/send_bug:system/bin/send_bug
+# QCOM
+PRODUCT_PROPERTY_OVERRIDES += \
+    com.qc.hardware=true
 
-$(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
+# QC Perf
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vendor.extension_library=/system/lib/libqc-opt.so
 
-# This is the find5-specific audio package
-$(call inherit-product, frameworks/base/data/sounds/AudioPackage10.mk)
+# other apps
+PRODUCT_PACKAGES += \
+    libncurses \
+    bash
+	
+$(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
+$(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
+
