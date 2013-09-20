@@ -148,6 +148,7 @@
         <item>1</item>
         <item>5</item>
         <item>7</item>
+        <item>9</item>
     </integer-array>
 
     <!-- If this is true, the screen will come on when you unplug usb/power/whatever. -->
@@ -183,6 +184,7 @@
         <item>"mobile_cbs,12,0,2,60000,true"</item>
         <item>"wifi_p2p,13,1,0,-1,true"</item>
         <item>"bluetooth,7,7,2,-1,true"</item>
+        <item>"wifi_p2p,13,1,0,-1,true"</item>
     </string-array>
 
     <!-- This string array should be overridden by the device to present a list of radio
@@ -231,6 +233,21 @@
     <!-- Flag indicating if the speed up audio on mt call code should be executed -->
     <bool name="config_speed_up_audio_on_mt_calls">true</bool>
 
+    <!-- empty string to disable, or like: /sys/kernel/fast_charge/force_fast_charge
+         it is disabled by default so devices need to add an overlay to enable-->
+    <string name="config_fastChargePath" translatable="false">/sys/kernel/fast_charge/force_fast_charge</string>
+
+    <!-- Default value for led color when battery is low on charge: <= 14% -->
+    <integer name="config_notificationsBatteryLowARGB">0xFFFF0000</integer>
+
+    <!-- Default value for led color when battery is medium charged: 15-89% -->
+    <integer name="config_notificationsBatteryMediumARGB">0xFFFF0000</integer>
+
+    <!-- Default value for led color when batter is almost charged: 90-99% -->
+    <integer name="config_notificationsBatteryAlmostARGB">0xFFFF6600</integer>
+
+    <!-- Default value for led color when battery is fully charged: 100% -->
+    <integer name="config_notificationsBatteryFullARGB">0xFF00FF00</integer>
 
     <!-- Indicate whether closing the lid causes the device to go to sleep and opening
          it causes the device to wake up.
