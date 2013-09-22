@@ -263,11 +263,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.extension_library=/system/lib/libqc-opt.so
 
+# Product specific Packages
+PRODUCT_PACKAGES += \
+    DeviceSettings
+
 # other apps
 PRODUCT_PACKAGES += \
     libncurses \
     bash
-
 # selinux
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.build.selinux=1 \
