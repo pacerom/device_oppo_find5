@@ -1,0 +1,7 @@
+# hardware info
+ro.device.chipset=Qualcomm Snapdragon S4 Pro APQ8064
+ro.device.cpu=1.5GHz quad-core Krait
+ro.device.gpu=Qualcomm Adreno 320
+ro.device.front_cam=1.9MP
+ro.device.rear_cam=13MP
+ro.device.screen_res=1080x1920
