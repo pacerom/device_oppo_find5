@@ -64,7 +64,9 @@ PRODUCT_COPY_FILES += \
 	device/oppo/find5/configs/media_codecs.xml:system/etc/media_codecs.xml
 
 PRODUCT_COPY_FILES += \
+	device/oppo/find5/init.qcom.post_boot.sh:system/etc/init.qcom.post_boot.sh \
 	device/oppo/find5/init.qcom.post_fs.sh:system/etc/init.qcom.post_fs.sh \
+	device/oppo/find5/init.qcom.efs.sync.sh:system/etc/init.qcom.efs.sync.sh \
 	device/oppo/find5/init.qcom.mdm_links.sh:system/etc/init.qcom.mdm_links.sh \
 	device/oppo/find5/init.qcom.modem_links.sh:system/etc/init.qcom.modem_links.sh
 
@@ -105,6 +107,20 @@ PRODUCT_COPY_FILES += \
 # GPS configuration
 PRODUCT_COPY_FILES += \
 	device/oppo/find5/configs/gps.conf:system/etc/gps.conf
+
+# SIP+VoIP
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml
+
+# Superuser
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/init.su.sh:system/etc/init.su.sh
+
+# Extra stuff
+PRODUCT_PACKAGES += \
+    CellBroadcastReceiver \
+    Development \
+    Stk
 
 # NFC packages
 PRODUCT_PACKAGES += \
@@ -263,22 +279,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.extension_library=/system/lib/libqc-opt.so
 
-# Product specific Packages
-PRODUCT_PACKAGES += \
-    DeviceSettings
-
 # other apps
 PRODUCT_PACKAGES += \
     libncurses \
     bash
-# selinux
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.build.selinux=1 \
-    persist.sys.root_access=1
-
-# SELinux filesystem labels
-PRODUCT_COPY_FILES += \
-    device/oppo/find5/configs/50selinuxrelabel:system/etc/init.d/50selinuxrelabel
 
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
